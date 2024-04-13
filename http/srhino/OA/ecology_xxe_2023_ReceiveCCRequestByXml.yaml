@@ -1,0 +1,30 @@
+id: ecology_xxe_2023_ReceiveCCRequestByXml
+
+info:
+  name: 泛微 E-Cology 9.X XXE漏洞
+  author: pork
+  severity: high
+  description: 泛微 E-Cology 9.X ReceiveCCRequestByXml及deleteUserRequestInfoByXml接口存在外部实体注入漏洞，攻击者利用此漏洞进行读取系统文件甚至获取管理员权限等恶意操作。
+  tags: ecology,weaver,xxe,oa
+
+requests:
+  - raw:
+      - |
+        GET /rest/ofs/deleteUserRequestInfoByXml HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+
+        <?xml version="1.0"?>
+        <!DOCTYPE>
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'WfData'
+      
+      - type: word
+        part: header
+        words:
+          - 'application/xml'
