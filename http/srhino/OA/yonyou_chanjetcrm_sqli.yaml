@@ -1,0 +1,19 @@
+id: chanjetcrm-sqli
+
+info:
+  name: 用友 畅捷CRM create_site.php SQL注入漏洞
+  author: pork
+  severity: critical
+  description: |
+    用友 畅捷CRM create_site.php 处存在SQL盲注，未对后台功能做有效的身份认证与用户的输入进行安全过滤，导致攻击者可利用此漏洞获取到服务器敏感信息。
+  tags: yonyou,chanjet,sqli,crm
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/WebSer~1/create_site.php?site_id=1" 
+    matchers:
+      - type: word
+        words:
+          - "register fail,please again"
+        part: body
